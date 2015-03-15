@@ -52,6 +52,8 @@ import in.twizmwaz.cardinal.module.modules.respawn.RespawnModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.score.ScoreModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.scoreboard.ScoreboardModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.scorebox.ScoreboxBuilder;
+import in.twizmwaz.cardinal.module.modules.serveroffline.ServerOfflineModule;
+import in.twizmwaz.cardinal.module.modules.serveroffline.ServerOfflineModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.snowflakes.SnowflakesBuilder;
 import in.twizmwaz.cardinal.module.modules.sound.SoundModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.spawn.SpawnModuleBuilder;
@@ -160,7 +162,9 @@ public class ModuleFactory {
             UpdateNotificationBuilder.class,
             MatchTranscriptBuilder.class,
             PotionRemoverBuilder.class,
-            InvisibleBlockBuilder.class
+            InvisibleBlockBuilder.class,
+            PotionRemoverBuilder.class,
+            ServerOfflineModuleBuilder.class
     };
     private final List<ModuleBuilder> builders;
 

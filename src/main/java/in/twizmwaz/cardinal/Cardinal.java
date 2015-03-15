@@ -115,6 +115,7 @@ public class Cardinal extends JavaPlugin {
         cmdRegister.register(ProximityCommand.class);
         cmdRegister.register(BroadcastCommands.class);
         cmdRegister.register(KickAllCommand.class);
+        cmdRegister.register(ServerOfflineCommand.class);
     }
 
     private void checkCraftVersion() {
