@@ -92,6 +92,7 @@ public class Cardinal extends JavaPlugin {
         cmdRegister.register(ScoreCommand.class);
         cmdRegister.register(ProximityCommand.class);
         cmdRegister.register(BroadcastCommands.class);
+        cmdRegister.register(KickAllCommand.class);
     }
 
     @Override
@@ -159,7 +160,7 @@ public class Cardinal extends JavaPlugin {
         }
         setupCommands();
     }
-    
+
     @Override
     public void onDisable() {
     }
@@ -179,7 +180,7 @@ public class Cardinal extends JavaPlugin {
     public static Cardinal getInstance() {
         return instance;
     }
-    
+
     public static Database getCardinalDatabase() {
         return database;
     }
