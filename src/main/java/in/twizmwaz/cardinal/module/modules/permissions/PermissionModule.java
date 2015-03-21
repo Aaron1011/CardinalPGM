@@ -41,21 +41,8 @@ public class PermissionModule implements Module {
         this.attachmentMap = new HashMap<>();
     }
 
-    public static boolean isMod(UUID player) {
-        for (String uuid : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.Moderator.players")) {
-            if (uuid.equals(player.toString())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static boolean isStaff(OfflinePlayer player) {
         return isMod(player.getUniqueId()) || player.isOp();
-    }
-
-    public static boolean isDeveloper(UUID player) {
-        return GameHandler.getGameHandler().getMatch().getModules().getModule(PermissionModule.class).getDevelopers().contains(player);
     }
 
     @Override
@@ -88,6 +75,15 @@ public class PermissionModule implements Module {
             for (String uuid : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.Moderator.players")) {
                 if (event.getPlayer().getUniqueId().toString().equals(uuid)) {
                     for (String permission : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.Moderator.permissions")) {
+                        attachmentMap.get(event.getPlayer()).setPermission(permission, true);
+                    }
+                }
+            }
+        }
+        if (GameHandler.getGameHandler().getPlugin().getConfig().get("permissions.ref.players") != null) {
+            for (String uuid : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.ref.players")) {
+                if (event.getPlayer().getUniqueId().toString().equals(uuid)) {
+                    for (String permission : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.ref.permissions")) {
                         attachmentMap.get(event.getPlayer()).setPermission(permission, true);
                     }
                 }
@@ -170,6 +166,19 @@ public class PermissionModule implements Module {
 
     public PermissionAttachment getPlayerAttachment(Player player) {
         return attachmentMap.get(player);
+    }
+
+    public static boolean isMod(UUID player) {
+        for (String uuid : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.Moderator.players")) {
+            if (uuid.equals(player.toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isDeveloper(UUID player) {
+        return GameHandler.getGameHandler().getMatch().getModules().getModule(PermissionModule.class).getDevelopers().contains(player);
     }
 
     @EventHandler

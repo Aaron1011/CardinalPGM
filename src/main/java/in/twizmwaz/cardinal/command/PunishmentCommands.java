@@ -10,6 +10,7 @@ import in.twizmwaz.cardinal.chat.LocalizedChatMessage;
 import in.twizmwaz.cardinal.module.modules.chatChannels.AdminChannel;
 import in.twizmwaz.cardinal.module.modules.chatChannels.ChatChannelModule;
 import in.twizmwaz.cardinal.module.modules.permissions.PermissionModule;
+import in.twizmwaz.cardinal.rank.Rank;
 import in.twizmwaz.cardinal.util.ChatUtils;
 import in.twizmwaz.cardinal.util.TeamUtils;
 import org.bukkit.BanList;
@@ -62,9 +63,17 @@ public class PunishmentCommands {
     public static void ban(CommandContext cmd, CommandSender sender) throws CommandException {
         OfflinePlayer banned = Bukkit.getOfflinePlayer(cmd.getString(0));
         if (sender instanceof Player) {
-            if (PermissionModule.isMod(((Player) sender).getUniqueId()) && banned.isOp()) {
+            if (Rank.isRank(((Player) sender).getUniqueId(), "admin") && (Rank.isRank(banned.getUniqueId(), "admin") || Rank
+                    .isRank(banned.getUniqueId(), "owner"))) {
+                throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_PLAYER_NOT_AFFECTED).getMessage(ChatUtils.getLocale(sender)));
+            } else if (PermissionModule.isMod(((Player) sender).getUniqueId()) && (Rank.isRank(banned.getUniqueId(), "admin") || Rank
+                    .isRank(banned.getUniqueId(), "owner") || PermissionModule.isMod(banned.getUniqueId()))) {
                 throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_PLAYER_NOT_AFFECTED).getMessage(ChatUtils.getLocale(sender)));
             }
+
+            /*if (PermissionModule.isMod(((Player) sender).getUniqueId()) && banned.isOp()) {
+                throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_PLAYER_NOT_AFFECTED).getMessage(ChatUtils.getLocale(sender)));
+            }*/
         }
         String reason = cmd.argsLength() > 1 ? cmd.getJoinedStrings(1) : "You have been banned!";
         if (banned.isOnline()) {
