@@ -1,5 +1,6 @@
 package in.twizmwaz.cardinal.rank;
 
+import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.event.RankChangeEvent;
 import in.twizmwaz.cardinal.module.modules.permissions.PermissionModule;
 import org.bukkit.Bukkit;
@@ -82,15 +83,46 @@ public class Rank {
     public static String getPlayerPrefix(UUID player) {
         String prefix = "";
         String staffChar = "\u2756";
-        if (Bukkit.getOfflinePlayer(player).isOp()) {
-            prefix += ChatColor.GOLD + staffChar;
+        String asterisk = "*";
+        if (Bukkit.getOfflinePlayer(player).isOp() || isRank(player, "owner")) {
+            prefix += ChatColor.DARK_PURPLE + staffChar;
         } else if (PermissionModule.isMod(player)) {
             prefix += ChatColor.RED + staffChar;
         }
         if (PermissionModule.isDeveloper(player)) {
             prefix += ChatColor.DARK_PURPLE + staffChar;
         }
+        if (isRank(player, "admin")) {
+            prefix += ChatColor.GOLD + staffChar;
+        }
+        if (isRank(player, "ref")) {
+            prefix+= ChatColor.GREEN + staffChar;
+        }
+        if (isRank(player, "tournament_winner")) {
+            prefix += ChatColor.WHITE + asterisk;
+        }
+        if (isRank(player, "optio")) {
+            prefix += ChatColor.GREEN + asterisk;
+        }
+        if (isRank(player, "centurion")) {
+            prefix += ChatColor.YELLOW + asterisk;
+        }
+        if (isRank(player, "dux")) {
+            prefix += ChatColor.DARK_PURPLE+ asterisk;
+        }
         return prefix;
+    }
+
+    public static boolean isRank(UUID player, String rank) {
+        if (rank.equals("admin") && Bukkit.getOfflinePlayer(player).isOp()) {
+            return true;
+        }
+        for (String uuid : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions." + rank + ".players")) {
+            if (uuid.equals(player.toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @EventHandler

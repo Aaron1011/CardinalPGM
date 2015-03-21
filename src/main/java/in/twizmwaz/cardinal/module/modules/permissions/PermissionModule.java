@@ -68,6 +68,15 @@ public class PermissionModule implements Module {
                 }
             }
         }
+        if (GameHandler.getGameHandler().getPlugin().getConfig().get("permissions.ref.players") != null) {
+            for (String uuid : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.ref.players")) {
+                if (event.getPlayer().getUniqueId().toString().equals(uuid)) {
+                    for (String permission : GameHandler.getGameHandler().getPlugin().getConfig().getStringList("permissions.ref.permissions")) {
+                        attachmentMap.get(event.getPlayer()).setPermission(permission, true);
+                    }
+                }
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -157,7 +166,7 @@ public class PermissionModule implements Module {
     }
 
     public static boolean isStaff(OfflinePlayer player) {
-        return isMod(player.getUniqueId()) || player.isOp();
+        return isMod(player.getUniqueId());
     }
 
     public static boolean isDeveloper(UUID player) {
@@ -208,5 +217,5 @@ public class PermissionModule implements Module {
     public boolean isMuted(Player player) {
         return muted.contains(player);
     }
-    
+
 }
