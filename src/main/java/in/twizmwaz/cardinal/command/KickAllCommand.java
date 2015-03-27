@@ -18,14 +18,15 @@ public class KickAllCommand {
 
     @Command(aliases = {"kickall", "ka"}, desc = "Kick all the players in a group", min = 1)
     public static void kickAll(final CommandContext cmd, CommandSender sender) throws CommandException {
-        if (cmd.argsLength() == 1) {
+        if (cmd.argsLength() >= 1) {
+            String reason = cmd.argsLength() > 1 ? cmd.getString(1) : "You got kicked";
             TeamModule team = TeamUtils.getTeamByName(cmd.getString(0));
             if (team != null) {
                 Iterator iterator = team.iterator();
                 while (iterator.hasNext()) {
                     Player player = (Player) iterator.next();
                     iterator.remove();
-                    player.kickPlayer("You got kicked!");
+                    player.kickPlayer(reason);
                 }
             } else {
                 throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_NO_TEAM_MATCH).getMessage(
