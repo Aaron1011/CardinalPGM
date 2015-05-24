@@ -33,8 +33,9 @@ public class PunishmentCommands {
         }
         if (kicked != null) {
             String reason = cmd.argsLength() > 1 ? cmd.getJoinedStrings(1) : "You have been kicked!";
+            String punisher = "&1&l:Punisher: " + sender.getName();
             Bukkit.broadcastMessage((sender instanceof Player ? TeamUtils.getTeamColorByPlayer((Player) sender) + ((Player) sender).getDisplayName() : ChatColor.YELLOW + "*Console") + ChatColor.GOLD + " \u00BB Kicked \u00BB " + TeamUtils.getTeamByPlayer(kicked).getColor() + kicked.getDisplayName() + ChatColor.GOLD + " \u00BB " + reason);
-            kicked.kickPlayer(ChatColor.RED + "Kicked" + ChatColor.GOLD + "  \u00BB  " + ChatColor.AQUA + reason);
+            kicked.kickPlayer(ChatColor.translateAlternateColorCodes('&', "&4&lRazon: " + reason + "\n" + punisher));
         } else {
             throw new CommandException(new LocalizedChatMessage(ChatConstant.ERROR_NO_PLAYER_MATCH).getMessage(ChatUtils.getLocale(sender)));
         }
@@ -78,7 +79,8 @@ public class PunishmentCommands {
         String reason = cmd.argsLength() > 1 ? cmd.getJoinedStrings(1) : "You have been banned!";
         if (banned.isOnline()) {
             Player onlineBanned = (Player) banned;
-            onlineBanned.kickPlayer(ChatColor.RED + "Permanently Banned" + ChatColor.GOLD + "  \u00BB  " + ChatColor.AQUA + reason);
+            String punisher = "&1&lPunisher: " + sender.getName();
+            onlineBanned.kickPlayer(ChatColor.translateAlternateColorCodes('&', "&4&lRazon: " + reason + "\n" + punisher));
             Bukkit.broadcastMessage((sender instanceof Player ? TeamUtils.getTeamColorByPlayer((Player) sender) + ((Player) sender).getDisplayName() : ChatColor.YELLOW + "*Console") + ChatColor.GOLD + " \u00BB Permanent Ban \u00BB " + TeamUtils.getTeamColorByPlayer(banned) + onlineBanned.getDisplayName() + ChatColor.GOLD + " \u00BB " + reason);
             Bukkit.getBanList(BanList.Type.NAME).addBan(cmd.getString(0), ChatColor.RED + "Permanently Banned" + ChatColor.GOLD + "  \u00BB  " + reason, null, sender.getName());
         } else if (!Bukkit.getBanList(BanList.Type.NAME).isBanned(banned.getName())){
