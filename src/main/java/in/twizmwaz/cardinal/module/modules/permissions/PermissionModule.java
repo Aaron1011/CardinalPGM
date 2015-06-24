@@ -8,6 +8,7 @@ import in.twizmwaz.cardinal.event.MatchStartEvent;
 import in.twizmwaz.cardinal.event.PlayerChangeTeamEvent;
 import in.twizmwaz.cardinal.event.RankChangeEvent;
 import in.twizmwaz.cardinal.module.Module;
+import in.twizmwaz.cardinal.module.modules.nick.NickModule;
 import in.twizmwaz.cardinal.rank.Rank;
 import in.twizmwaz.cardinal.util.TeamUtils;
 import org.bukkit.Bukkit;
@@ -27,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.smartcardio.Card;
 
 public class PermissionModule implements Module {
 
@@ -183,6 +186,9 @@ public class PermissionModule implements Module {
 
     @EventHandler
     public void onRankChange(RankChangeEvent event) {
+        if (Cardinal.getInstance().getGameHandler().getMatch().getModules().getModule(NickModule.class).nicks.containsKey(event.getPlayer())) {
+            return;
+        }
         String prefix = Rank.getPlayerPrefix(event.getPlayer().getUniqueId());
         event.getPlayer().setDisplayName(prefix + event.getTeam().getColor() + event.getPlayer().getName());
         event.getPlayer().setPlayerListName(prefix + event.getTeam().getColor() + event.getPlayer().getName());

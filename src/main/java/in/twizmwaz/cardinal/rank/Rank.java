@@ -4,6 +4,7 @@ import in.twizmwaz.cardinal.GameHandler;
 import in.twizmwaz.cardinal.module.modules.permissions.PermissionModule;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -82,20 +83,24 @@ public class Rank {
     public static String getPlayerPrefix(UUID player) {
         String prefix = "";
         String staffChar = "\u2756";
+        String adminChar = "۞";
         String asterisk = "*";
         if (Bukkit.getOfflinePlayer(player).isOp() || isRank(player, "owner")) {
-            prefix += ChatColor.DARK_PURPLE + staffChar;
+            prefix += ChatColor.DARK_PURPLE + adminChar;
         } else if (PermissionModule.isMod(player)) {
-            prefix += ChatColor.RED + staffChar;
+            prefix += ChatColor.RED + adminChar;
         }
         if (PermissionModule.isDeveloper(player)) {
             prefix += ChatColor.DARK_PURPLE + staffChar;
         }
         if (isRank(player, "admin")) {
-            prefix += ChatColor.GOLD + staffChar;
+            prefix += ChatColor.GOLD + adminChar;
         }
         if (isRank(player, "ref")) {
-            prefix+= ChatColor.GREEN + staffChar;
+            prefix += ChatColor.GREEN + staffChar;
+        }
+        if (isRank(player, "jr"))  {
+            prefix += ChatColor.LIGHT_PURPLE + adminChar;
         }
         if (isRank(player, "tournament_winner")) {
             prefix += ChatColor.WHITE + asterisk;
@@ -107,7 +112,10 @@ public class Rank {
             prefix += ChatColor.YELLOW + asterisk;
         }
         if (isRank(player, "dux")) {
-            prefix += ChatColor.DARK_PURPLE+ asterisk;
+            prefix += ChatColor.DARK_PURPLE + asterisk;
+        }
+        if (isRank(player, "internet")) {
+            prefix += ChatColor.DARK_BLUE + asterisk;
         }
         return prefix;
     }
@@ -122,6 +130,10 @@ public class Rank {
             }
         }
         return false;
+    }
+
+    public static boolean canUseNick(OfflinePlayer player) {
+        return PermissionModule.isStaff(player) || isRank(player.getUniqueId(), "internet");
     }
 
     @EventHandler

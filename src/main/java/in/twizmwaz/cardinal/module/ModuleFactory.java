@@ -39,6 +39,7 @@ import in.twizmwaz.cardinal.module.modules.matchTranscript.MatchTranscriptBuilde
 import in.twizmwaz.cardinal.module.modules.mob.MobModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.monumentModes.MonumentModesBuilder;
 import in.twizmwaz.cardinal.module.modules.motd.MOTDBuilder;
+import in.twizmwaz.cardinal.module.modules.nick.NickModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.observers.ObserverModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.permissions.PermissionModuleBuilder;
 import in.twizmwaz.cardinal.module.modules.playable.PlayableBuilder;
@@ -164,7 +165,8 @@ public class ModuleFactory {
             PotionRemoverBuilder.class,
             InvisibleBlockBuilder.class,
             PotionRemoverBuilder.class,
-            ServerOfflineModuleBuilder.class
+            ServerOfflineModuleBuilder.class,
+            NickModuleBuilder.class,
     };
     private final List<ModuleBuilder> builders;
 
